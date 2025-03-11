@@ -91,9 +91,11 @@ chk_args(){
             exit 1
         fi
     elif  [ "$1" == "iplist" ]; then # syntax of list ip adresse like 192.168.2.XX,XX.XX
-        if ! [[ $3 =~ ^(([0-9]{1,3}\.){3}[0-9]{1,3}(,[0-9]{1,3})*$)|^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+        if ! [[ $3 == "dhcp" ]]; then
+          if ! [[ $3 =~ ^(([0-9]{1,3}\.){3}[0-9]{1,3}(,[0-9]{1,3})*$)|^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
             msg_error "Argument: '$3' for IP list does not follow the required nomenclature"
             exit 1
+          fi
         fi
     elif  [ "$1" == "vmid" ]; then # syntax of list vmimd like 100,101,102,103 
         IFS=',' read -ra nums <<< "$3"
