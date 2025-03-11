@@ -26,6 +26,10 @@
 ##########################################################################################################
 
 next_available_vmid() {
+  if [[ "$VMID" != "" ]]; then
+    GS_VMID="$VMID"
+    return
+  fi
   qm_ids=$(qm list | awk '{print $1}')
   pct_ids=$(pct list | awk '{print $1}')
   for (( i=100; i<=9999; i++ )); do
