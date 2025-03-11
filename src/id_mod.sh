@@ -28,13 +28,13 @@
 next_available_vmid() {
   qm_ids=$(qm list | awk '{print $1}')
   pct_ids=$(pct list | awk '{print $1}')
-  for (( i=100; i<=9999; i++ )); do
+  for (( i=100; i<=$HS_MAX_ID; i++ )); do
     if ! echo "$qm_ids" | grep -q -w "$i" && ! echo "$pct_ids" | grep -q -w "$i"; then
       GS_VMID="$i"
       return
     fi
   done
-  msg_error "No available virtual machine ID found in the range 100 to 9999"
+  msg_error "No available virtual machine ID found in the range 100 to $HS_MAX_ID"
 }
 
 check_vmid_list() {

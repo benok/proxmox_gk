@@ -99,8 +99,8 @@ chk_args(){
         IFS=',' read -ra nums <<< "$3"
 
         for num in "${nums[@]}"; do
-            if ! [[ "$num" =~ ^[0-9]+$ ]] || ! (( num >= 100 && num <= 9999 )); then
-                msg_error "Argument: '$num' must be an integer between 100 and 9999, list must be separted by comas."
+            if ! [[ "$num" =~ ^[0-9]+$ ]] || ! (( num >= 100 && num <= $HS_MAX_ID )); then
+                msg_error "Argument: '$num' must be an integer between 100 and $HS_MAX_ID, list must be separted by comas."
                 exit 1
             fi
         done
