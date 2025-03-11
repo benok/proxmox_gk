@@ -59,7 +59,11 @@ display_shape(){
     msg_info_inline "Network" 
     msg_syntax_nb " (device_type:'$QS_NET0', interface:'$QS_NET_ETH', bridge_set:'$GS_NETBR')"
     msg_info_inline "Network values" 
-    msg_syntax_nb " (gateway:'$GS_GATE', attribute_ip:'$GS_NETCONF', cidr:'$GS_CIDR')"
+    if [[ "$GS_NETCONF" == "dhcp" ]]; then
+      msg_syntax_nb " (attribute_ip:'$GS_NETCONF')"
+    else
+      msg_syntax_nb " (gateway:'$GS_GATE', attribute_ip:'$GS_NETCONF', cidr:'$GS_CIDR')"
+    fi
     msg_info_inline "DNS/Search domain" 
     msg_syntax_nb " (DNS00:'$GS_DNS00', DNS01:'$GS_DNS01')"
     msg_info_inline "Start on boot" 
@@ -88,7 +92,11 @@ display_shape(){
     msg_info_inline "Network"
     msg_syntax_nb " (device_name:'$CS_NET_NAME', interface:'$CS_NET_ETH', bridge_set:'$GS_NETBR')"
     msg_info_inline "Network values"
-    msg_syntax_nb " (gateway:'$GS_GATE', attribute_ip:'$GS_NETCONF', cidr:'$GS_CIDR')"
+    if [[ "$GS_NETCONF" == "dhcp" ]]; then
+      msg_syntax_nb " (attribute_ip:'$GS_NETCONF')"
+    else
+      msg_syntax_nb " (gateway:'$GS_GATE', attribute_ip:'$GS_NETCONF', cidr:'$GS_CIDR')"
+    fi
     msg_info_inline "DNS/Search domain" 
     msg_syntax_nb " (DNS00:'$GS_DNS00', DNS01:'$GS_DNS01')"
     msg_info_inline "Start on boot"
