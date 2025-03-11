@@ -5,6 +5,8 @@
 
 NAME:= pgk
 VERSION:= 0.1.0
+# https://stackoverflow.com/a/23324703/26736
+ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 
 # quick tools
 INSTALL  = install
@@ -32,6 +34,8 @@ CONF_INIT   = cinit.sh 98-datasource.cfg 99-warnings.cfg
 DF_KVM		= ds_kvm_alpine.conf ds_kvm_arch.conf ds_kvm_deb-sysd.conf ds_kvm_rhel.conf ds_kvm_fbsd.conf ds_kvm_obsd.conf 
 DF_LXC		= ds_lxc_alpine.conf ds_lxc_arch.conf ds_lxc_deb-sysd.conf ds_lxc_deb-init.conf ds_lxc_rhel.conf ds_lxc_suse.conf ds_lxc_gentoo.conf
 
+devinstall: dev_install_files link_exec create_files
+
 install: install_files link_exec create_files
 
 ## DESTDIR only for pkg create
@@ -56,6 +60,20 @@ link_exec:
 create_files:
 	$(ADD) $(LOGDIR)/pgk.log 
 
+# symlink to source files for developer
+dev_install_files:
+	$(INSTALL) -d $(DESTDIR)$(CONFDIR)
+	$(INSTALL) -d $(DESTDIR)$(SHAREDIR)
+	$(INSTALL) -d $(DESTDIR)$(SHAREDIR)/gs_lxc
+	$(INSTALL) -d $(DESTDIR)$(SHAREDIR)/gs_kvm
+	$(INSTALL) -d $(DESTDIR)$(MANDIR)1
+	cd $(DESTDIR)$(SHAREDIR) && $(LK) $(ROOT_DIR)/init
+	cd $(patsubst %/,%,$(dir $(BASEDIR))) && $(LK) $(ROOT_DIR)/src pgk
+	cd $(DESTDIR)$(MANDIR)1 && $(LK) $(ROOT_DIR)/man/$(MANPAGES1)
+	cd $(DESTDIR)$(CONFDIR) && $(LK) $(ROOT_DIR)/$(CONFILES)
+	cd $(DESTDIR)$(SHAREDIR) && $(LK) $(ROOT_DIR)/$(INDEXFILES)
+	cd $(ROOT_DIR)/init && for i in $(SAMPLES); do $(LK) ../samples/$$i; done;
+
 # Rules uninstall 
 uninstall: 
 	$(RM_F) $(DESTDIR)$(BINDIR)/pgk 
@@ -63,4 +81,4 @@ uninstall:
 	$(RM_R) $(DESTDIR)$(BASEDIR) $(DESTDIR)$(CONFDIR) $(DESTDIR)$(SHAREDIR)
 	$(RM_F) $(addprefix $(DESTDIR)$(MANDIR)1/, $(MANPAGES1))
 
-.PHONY: install uninstall install_files create_files
+.PHONY: install uninstall install_files dev_install_files create_files
