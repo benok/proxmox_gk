@@ -271,7 +271,7 @@ guest_lxc_ipconfig(){
   #### IP attribution
     if [ "$GS_NETCONF" == "dhcp" ]; then
       pct set "$key" --net"$CS_NET_ETH" \
-      name="$CS_NET_NAME""$CS_NET_ETH",ip=dhcp,bridge="$GS_NETBR",gw="$GS_GATE" >/dev/null
+      name="$CS_NET_NAME""$CS_NET_ETH",ip=dhcp,bridge="$GS_NETBR" >/dev/null
       pct set "$key" --nameserver "$GS_DNS00 $GS_DNS01"  >/dev/null
 #      pct set "$key" --searchdomain "local" >/dev/null
     else
