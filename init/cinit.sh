@@ -40,12 +40,18 @@ exec_cloudinit() {
   else
     # before v. 24.0.0
     echo "cloud-init version : $cloud_init_version | using old syntax cmd"
-    cloud-init schema -c "$base_conf" --annotate
+    if [ "$major_version" -eq 23 ] || [ "$major_version" -eq 22 ] && [ "$minor_version" -ge 2 ]; then
+      cloud-init schema -c "$base_conf" --annotate
+    fi
     cloud-init --file "$base_conf" init
     cloud-init --file "$base_conf" modules --mode config
     cloud-init --file "$base_conf" modules --mode final
     < /var/log/cloud-init.log grep ".*guest has been initialized" | awk -F': ' '{print $2}'
-    cloud-init status --format json
+    if [ "$major_version" -eq 23 ] || [ "$major_version" -eq 22 ] && [ "$minor_version" -ge 4 ]; then
+      cloud-init status --format json
+    else
+      cloud-init status
+    fi
   fi
 }
 
