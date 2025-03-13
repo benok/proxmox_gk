@@ -344,6 +344,24 @@ chk_lxc_shape(){
   done
 }
 
+chk_name() {
+  ## can override with NAME shell variable
+  if [[ -z "$NAME" ]]; then
+    ## prefer distribution name?
+    if [[ $HS_USE_DISTRIB_NAME = "1" ]]; then
+      NAME=$ARG_DISTRIB
+    else
+      NAME=$CS_NAME
+    fi
+  fi
+
+  ## check name
+  if ! [[ $NAME =~ ^[[:alnum:][:punct:]]+$ ]]; then
+    msg_error "Argument: '$NAME' for distribution name not provinded, or not follow the required nomenclature"
+    exit 1
+  fi
+}
+
 clean_dshape(){
   shape_fileset=(
     "$HS_LXC_SHAPE/ds_lxc_alpine.yaml"

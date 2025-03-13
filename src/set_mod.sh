@@ -43,7 +43,7 @@ var_parser() {
 display_shape(){
   if [[ "$1" == "kvm" ]]; then
     msg_info_inline "QEMU/KVM" 
-    msg_syntax_nb " (guest_name:'$QS_NAME')"
+    msg_syntax_nb " (guest_name:'$NAME')"
     msg_info_inline "Qemu-agent"
     msg_syntax_nb " (value:'$QS_AGENT')"
     msg_info_inline "RAM" 
@@ -82,7 +82,7 @@ display_shape(){
     msg_syntax_nb " (timezone:'$GS_CITZ', localization:'$GS_CILOC')"
   elif [[ "$1" == "lxc" ]]; then
     msg_info_inline "LXC" 
-    msg_syntax_nb " (guest_name:'$CS_NAME')"
+    msg_syntax_nb " (guest_name:'$NAME')"
     msg_info_inline "RAM" 
     msg_syntax_nb " (amount_memory:'$CS_MEMORY')"
     msg_info_inline "CPU" 

@@ -57,9 +57,16 @@ guest_qm_init() {
       msg_ok "ID $key is available."
     fi
 
+  ## add id suffix?
+  if [[ $HS_ADD_ID_SUFFIX = "1" ]]; then
+    HOST_NAME=$NAME-$key
+  else
+    HOST_NAME=$NAME
+  fi
+
   if [ "${QS_BIOS}" == "seabios" ]; then
     log_command "DEBUG-QEMU_BUILD" "qm create $key \
-      --name $QS_NAME-$key \
+      --name $HOST_NAME \
       --agent $QS_AGENT \
       --memory $QS_MEMORY \
       --bios $QS_BIOS \
@@ -78,7 +85,7 @@ guest_qm_init() {
   elif [ "${QS_BIOS}" == "ovmf" ]; then
 
     log_command "DEBUG-QEMU_BUILD" "qm create $key \
-      --name $QS_NAME-$key \
+      --name $HOST_NAME \
       --agent $QS_AGENT \
       --memory $QS_MEMORY \
       --bios $QS_BIOS \
@@ -162,10 +169,10 @@ guest_qm_ciconf(){
   if [ -f "$GS_SHAPECONF" ]; then
     QS_CICONF=$(sed '/^cloud_init:/,$!d' "$GS_SHAPECONF")
     if [ -n "$QS_CICONF" ]; then
-      sed '/^cloud_init:/,$!d' "$GS_SHAPECONF" | sed -e '1s/^cloud_init:/#cloud-config/' > "$HS_PATH_CONF/gs_kvm-$QS_NAME-$key.yaml"
+      sed '/^cloud_init:/,$!d' "$GS_SHAPECONF" | sed -e '1s/^cloud_init:/#cloud-config/' > "$HS_PATH_CONF/gs_kvm-$HOST_NAME.yaml"
       echo ""
       msg_syntax "Set Cloud-init configuration"
-      qm set "$key" --citype "nocloud" --cicustom "user=$HS_DATASTR:snippets/gs_kvm-$QS_NAME-$key.yaml" >/dev/null
+      qm set "$key" --citype "nocloud" --cicustom "user=$HS_DATASTR:snippets/gs_kvm-$HOST_NAME.yaml" >/dev/null
       qm cloudinit update "$key" >/dev/null
     else
       msg_syntax "No values provinded for cloud-init"
@@ -196,7 +203,7 @@ guest_qm_fingerprint(){
   cat << EOF >> "/etc/pve/qemu-server/$key.conf"
 # - base image: $img
 # - base shape: $GS_SHAPECONF
-# - cloud-init file: $HS_PATH_CONF/gs_kvm-$QS_NAME-$key.yaml
+# - cloud-init file: $HS_PATH_CONF/gs_kvm-$HOST_NAME.yaml
 EOF
   fi
 }
@@ -249,11 +256,18 @@ guest_lxc_init() {
       msg_ok "ID $key is available."
     fi
 
+  ## add id suffix?
+  if [[ $HS_ADD_ID_SUFFIX = "1" ]]; then
+    HOST_NAME=$NAME-$key
+  else
+    HOST_NAME=$NAME
+  fi
+
   log_command "DEBUG-LXC_BUILD" "pct create $key $HS_LXCIMG/$img \
     --cores $CS_CORE \
     --memory $CS_MEMORY \
     --swap $CS_MEMORY \
-    --hostname $CS_NAME-$key \
+    --hostname $HOST_NAME \
     --onboot $CS_ONBOOT \
     --rootfs $HS_LOCALVM:$CS_SPACE \
     --protection $CS_PROTECT \
@@ -290,7 +304,7 @@ guest_lxc_ciconf(){
   if [ -f "$GS_SHAPECONF" ]; then
     CS_CICONF=$(sed '/^cloud_init:/,$!d' "$GS_SHAPECONF")
     if [ -n "$CS_CICONF" ]; then
-      sed '/^cloud_init:/,$!d' "$GS_SHAPECONF" | sed -e '1s/^cloud_init:/#cloud-config/' > "$HS_PATH_CONF/gs_lxc-$CS_NAME-$key.yaml"
+      sed '/^cloud_init:/,$!d' "$GS_SHAPECONF" | sed -e '1s/^cloud_init:/#cloud-config/' > "$HS_PATH_CONF/gs_lxc-$HOST_NAME.yaml"
       echo ""
       msg_syntax "Set Cloud-init configuration"
     else
@@ -321,7 +335,7 @@ guest_lxc_fingerprint(){
   cat << EOF >> "/etc/pve/lxc/$key.conf"
 # - base image: $img
 # - base shape: $GS_SHAPECONF
-# - cloud-init file: $HS_PATH_CONF/gs_lxc-$CS_NAME-$key.yaml
+# - cloud-init file: $HS_PATH_CONF/gs_lxc-$HOST_NAME.yaml
 EOF
   fi
 }
@@ -343,7 +357,7 @@ guest_lxc_ciset(){
     # populate required files
     pct push "$key" "$HS_INIT_SHAPE/98-datasource.cfg" etc/cloud/cloud.cfg.d/98-datasource.cfg
     pct push "$key" "$HS_INIT_SHAPE/99-warnings.cfg" etc/cloud/cloud.cfg.d/99-warnings.cfg
-    pct push "$key" "$HS_PATH_CONF/gs_lxc-$CS_NAME-$key.yaml" "cidata/gs_lxc-$CS_NAME-$key.yaml"
+    pct push "$key" "$HS_PATH_CONF/gs_lxc-$HOST_NAME.yaml" "cidata/gs_lxc-$HOST_NAME.yaml"
     log_command "DEBUG-LXC_CLOUD-INIT_01" "pct exec $key /cidata/cinit.sh load" & PID=$!
     spin $PID "Loading cloud-init configuration ..." "Configuration loaded !" 
 
