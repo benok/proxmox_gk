@@ -139,6 +139,8 @@ while getopts "b:a:t:l:e:u:" opt; do
           GS_VMID="$4"
           GS_NETCONF="$5"
           check_vmid_list
+          ARG_DISTRIB="$3"
+          chk_name
           qm_getdistrib "$3"
           getshape kvm "$6" # optional used for overriding default value
           GS_SHAPECONF="$yaml_file"
@@ -153,6 +155,8 @@ while getopts "b:a:t:l:e:u:" opt; do
           GS_VMID="$4"
           GS_NETCONF="$5"
           check_vmid_list          
+          ARG_DISTRIB="$3"
+          chk_name
           lxc_getdistrib "$3"
           getshape lxc "$6" # optional used for overdide defautl var.
           GS_SHAPECONF="$yaml_file"
@@ -169,6 +173,8 @@ while getopts "b:a:t:l:e:u:" opt; do
           check_shape_yaml "$OPTARG" "$4"
           next_available_vmid
           GS_NETCONF="dhcp"
+          ARG_DISTRIB="$3"
+          chk_name
           qm_getdistrib "$3"
           getshape kvm "$4" # optional used for overriding default value
           GS_SHAPECONF="$yaml_file"
@@ -180,6 +186,8 @@ while getopts "b:a:t:l:e:u:" opt; do
           check_shape_yaml "$OPTARG" "$4"
           next_available_vmid
           GS_NETCONF="dhcp"
+          ARG_DISTRIB="$3"
+          chk_name
           lxc_getdistrib "$3"
           getshape lxc "$4" # optional used for overdide defautl var.
           GS_SHAPECONF="$yaml_file"
@@ -196,6 +204,8 @@ while getopts "b:a:t:l:e:u:" opt; do
           check_shape_yaml "$OPTARG" "$4"
           next_available_vmid
           GS_NETCONF="dhcp"
+          ARG_DISTRIB="$3"
+          chk_name
           qm_getdistrib "$3"
           getshape kvm "$4" # needed for overriding default value
           GS_SHAPECONF="$yaml_file"
@@ -209,6 +219,8 @@ while getopts "b:a:t:l:e:u:" opt; do
           check_shape_yaml "$OPTARG" "$4"
           next_available_vmid
           GS_NETCONF="dhcp"
+          ARG_DISTRIB="$3"
+          chk_name
           lxc_getdistrib "$3"
           getshape lxc "$4" # needed for overriding default value
           GS_SHAPECONF="$yaml_file"
