@@ -30,12 +30,12 @@
     "kvm_dshape": "ds_kvm_rhel.yaml"
   },
   {
-    "kvm_img": "debian-11-generic-amd64-20240211-1654.qcow2",
+    "kvm_img": "debian-11-generic-amd64.qcow2",
     "kvm_dlink": "https://cloud.debian.org/images/cloud/bullseye/latest/debian-11-generic-amd64.qcow2",
     "kvm_dshape": "ds_kvm_deb-sysd.yaml"
   },
   {
-    "kvm_img": "debian-12-generic-amd64-20240415-1718.qcow2",
+    "kvm_img": "debian-12-generic-amd64.qcow2",
     "kvm_dlink": "https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-generic-amd64.qcow2",
     "kvm_dshape": "ds_kvm_deb-sysd.yaml"
   },
