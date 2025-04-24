@@ -261,6 +261,7 @@ chk_guest_confiles(){
   shape_fileset=(
     "$HS_INIT_SHAPE/ss_ulxc_alpine-docker.conf"
     "$HS_INIT_SHAPE/ss_plxc_alpine-docker.conf"
+    "$HS_INIT_SHAPE/ss_ulxc_debian-docker.conf"
     "$HS_INIT_SHAPE/ss_plxc_debian-docker.conf"
     "$HS_INIT_SHAPE/ss_kvm_alpine-docker.conf"
     "$HS_INIT_SHAPE/ds_lxc_alpine.conf"
@@ -325,6 +326,7 @@ chk_lxc_shape(){
     "$HS_LXC_SHAPE/ds_lxc_suse.yaml"
     "$HS_LXC_SHAPE/ds_lxc_gentoo.yaml"
     "$HS_LXC_SHAPE/ss_ulxc_alpine-docker.yaml"
+    "$HS_LXC_SHAPE/ss_ulxc_debian-docker.yaml"
     "$HS_LXC_SHAPE/ss_plxc_debian-docker.yaml"
     "$HS_LXC_SHAPE/ss_plxc_alpine-docker.yaml")
     
@@ -375,6 +377,7 @@ clean_dshape(){
     "$HS_LXC_SHAPE/ds_lxc_gentoo.yaml"
     "$HS_LXC_SHAPE/ss_ulxc_alpine-docker.yaml"
     "$HS_LXC_SHAPE/ss_plxc_alpine-docker.yaml"
+    "$HS_LXC_SHAPE/ss_ulxc_debian-docker.yaml"
     "$HS_LXC_SHAPE/ss_plxc_debian-docker.yaml"
     "$HS_KVM_SHAPE/ds_kvm_alpine.yaml"
     "$HS_KVM_SHAPE/ds_kvm_arch.yaml"
