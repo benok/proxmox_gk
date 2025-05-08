@@ -264,6 +264,7 @@ chk_guest_confiles(){
     "$HS_INIT_SHAPE/ss_ulxc_debian-docker.conf"
     "$HS_INIT_SHAPE/ss_plxc_debian-docker.conf"
     "$HS_INIT_SHAPE/ss_kvm_alpine-docker.conf"
+    "$HS_INIT_SHAPE/ss_kvm_debian-docker.conf"
     "$HS_INIT_SHAPE/ds_lxc_alpine.conf"
     "$HS_INIT_SHAPE/ds_kvm_alpine.conf"
     "$HS_INIT_SHAPE/ds_lxc_arch.conf"
@@ -296,7 +297,8 @@ chk_kvm_shape(){
     "$HS_KVM_SHAPE/ds_kvm_rhel.yaml"
     "$HS_KVM_SHAPE/ds_kvm_fbsd.yaml"
     "$HS_KVM_SHAPE/ds_kvm_obsd.yaml"
-    "$HS_KVM_SHAPE/ss_kvm_alpine-docker.yaml")
+    "$HS_KVM_SHAPE/ss_kvm_alpine-docker.yaml"
+    "$HS_KVM_SHAPE/ss_kvm_debian-docker.conf")
     
   for file in "${shape_fileset[@]}"; do
     if [ -f "$file" ]; then
@@ -385,7 +387,8 @@ clean_dshape(){
     "$HS_KVM_SHAPE/ds_kvm_rhel.yaml"
     "$HS_KVM_SHAPE/ds_kvm_fbsd.yaml"
     "$HS_KVM_SHAPE/ds_kvm_obsd.yaml"
-    "$HS_KVM_SHAPE/ss_kvm_alpine-docker.yaml")
+    "$HS_KVM_SHAPE/ss_kvm_alpine-docker.yaml"
+    "$HS_KVM_SHAPE/ss_kvm_debian-docker.yaml")
 
   for file in "${shape_fileset[@]}"; do
       if [ -f "$file" ]; then
